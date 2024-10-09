@@ -1,17 +1,21 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/center_seek_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
 import 'package:chewie/src/helpers/utils.dart';
+import 'package:chewie/src/material/asset_manger.dart';
 import 'package:chewie/src/material/material_progress_bar.dart';
 import 'package:chewie/src/material/widgets/options_dialog.dart';
 import 'package:chewie/src/material/widgets/playback_speed_dialog.dart';
+import 'package:chewie/src/material/yellow_close_btn_widget.dart';
 import 'package:chewie/src/models/option_item.dart';
 import 'package:chewie/src/models/subtitle_model.dart';
 import 'package:chewie/src/notifiers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -61,6 +65,7 @@ class _MaterialControlsState extends State<MaterialControls>
 
   @override
   Widget build(BuildContext context) {
+    return cont();
     if (_latestValue.hasError) {
       return chewieController.errorBuilder?.call(
             context,
@@ -111,6 +116,86 @@ class _MaterialControlsState extends State<MaterialControls>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget cont() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          if (chewieController.isFullScreen) ...[
+            SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: YellowCloseBtnWidget(
+                  onTap: () {
+                    _pause();
+                    _onExpandCollapse();
+                  },
+                ),
+              ),
+            ),
+            Spacer(),
+          ],
+          if (!chewieController.isFullScreen)
+            GestureDetector(
+              onTap: () {
+                _play();
+                _onExpandCollapse();
+              },
+              child: SvgPicture.asset(
+                AssetManger.playBtn, // Toggle based on state
+              ),
+            ),
+          if (chewieController.isFullScreen)
+            Container(
+              height: 160,
+              width: MediaQuery.of(context).size.width,
+
+              // width: state.screenWidth/2,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: _buildProgressBar(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 0.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _playPause();
+                      },
+                      child: !chewieController.isPlaying
+                          ? SvgPicture.asset(
+                              height: 90, width: 90,
+
+                              AssetManger.playBtn, // Toggle based on state
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: SvgPicture.asset(
+                                height: 110,
+                                // width: 10,
+                                AssetManger.pauseBtn, // Toggle based on state
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -524,9 +609,24 @@ class _MaterialControlsState extends State<MaterialControls>
   }
 
   Future<void> _initialize() async {
+    log('init');
     _subtitleOn = chewieController.subtitle?.isNotEmpty ?? false;
     controller.addListener(_updateState);
+    controller.addListener(() {
+      final bool isFinished =
+          (_latestValue.position + Duration(milliseconds: 100) >=
+                  _latestValue.duration) &&
+              _latestValue.duration.inSeconds > 0;
+      log('////');
+      log(_latestValue.position.toString());
+      log(_latestValue.duration.toString());
 
+      if (isFinished) {
+        _pause();
+        if (chewieController.isFullScreen) _onExpandCollapse();
+        chewieController.seekTo(Duration.zero);
+      }
+    });
     _updateState();
 
     if (controller.value.isPlaying || chewieController.autoPlay) {
@@ -544,6 +644,8 @@ class _MaterialControlsState extends State<MaterialControls>
 
   void _onExpandCollapse() {
     setState(() {
+      chewieController.seekTo(Duration.zero);
+
       notifier.hideStuff = true;
 
       chewieController.toggleFullScreen();
@@ -553,6 +655,37 @@ class _MaterialControlsState extends State<MaterialControls>
           _cancelAndRestartTimer();
         });
       });
+    });
+  }
+
+  void _play() {
+    final bool isFinished = (_latestValue.position >= _latestValue.duration) &&
+        _latestValue.duration.inSeconds > 0;
+
+    setState(() {
+      _cancelAndRestartTimer();
+
+      if (!controller.value.isInitialized) {
+        controller.initialize().then((_) {
+          controller.play();
+        });
+      } else {
+        if (isFinished) {
+          controller.seekTo(Duration.zero);
+        }
+        controller.play();
+      }
+    });
+  }
+
+  void _pause() {
+    final bool isFinished = (_latestValue.position >= _latestValue.duration) &&
+        _latestValue.duration.inSeconds > 0;
+
+    setState(() {
+      notifier.hideStuff = false;
+      _hideTimer?.cancel();
+      controller.pause();
     });
   }
 
@@ -656,36 +789,34 @@ class _MaterialControlsState extends State<MaterialControls>
   }
 
   Widget _buildProgressBar() {
-    return Expanded(
-      child: MaterialVideoProgressBar(
-        controller,
-        onDragStart: () {
-          setState(() {
-            _dragging = true;
-          });
+    return MaterialVideoProgressBar(
+      controller,
+      onDragStart: () {
+        setState(() {
+          _dragging = true;
+        });
 
-          _hideTimer?.cancel();
-        },
-        onDragUpdate: () {
-          _hideTimer?.cancel();
-        },
-        onDragEnd: () {
-          setState(() {
-            _dragging = false;
-          });
+        _hideTimer?.cancel();
+      },
+      onDragUpdate: () {
+        _hideTimer?.cancel();
+      },
+      onDragEnd: () {
+        setState(() {
+          _dragging = false;
+        });
 
-          _startHideTimer();
-        },
-        colors: chewieController.materialProgressColors ??
-            ChewieProgressColors(
-              playedColor: Theme.of(context).colorScheme.secondary,
-              handleColor: Theme.of(context).colorScheme.secondary,
-              bufferedColor:
-                  Theme.of(context).colorScheme.surface.withOpacity(0.5),
-              backgroundColor: Theme.of(context).disabledColor.withOpacity(.5),
-            ),
-        draggableProgressBar: chewieController.draggableProgressBar,
-      ),
+        _startHideTimer();
+      },
+      colors: chewieController.materialProgressColors ??
+          ChewieProgressColors(
+            playedColor: Theme.of(context).colorScheme.secondary,
+            handleColor: Theme.of(context).colorScheme.secondary,
+            bufferedColor:
+                Theme.of(context).colorScheme.surface.withOpacity(0.5),
+            backgroundColor: Theme.of(context).disabledColor.withOpacity(.5),
+          ),
+      draggableProgressBar: chewieController.draggableProgressBar,
     );
   }
 }
