@@ -16,13 +16,10 @@ class AdaptiveControls extends StatelessWidget {
       case TargetPlatform.macOS:
       case TargetPlatform.windows:
       case TargetPlatform.linux:
-        return const MaterialDesktopControls();
+        return const MaterialControls();
 
       case TargetPlatform.iOS:
-        return const CupertinoControls(
-          backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
-          iconColor: Color.fromARGB(255, 200, 200, 200),
-        );
+        return const MaterialControls();
       default:
         return const MaterialControls();
     }

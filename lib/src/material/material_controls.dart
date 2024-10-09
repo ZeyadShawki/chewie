@@ -665,16 +665,10 @@ class _MaterialControlsState extends State<MaterialControls>
     setState(() {
       _cancelAndRestartTimer();
 
-      if (!controller.value.isInitialized) {
-        controller.initialize().then((_) {
-          controller.play();
-        });
-      } else {
-        if (isFinished) {
-          controller.seekTo(Duration.zero);
-        }
-        controller.play();
+      if (isFinished) {
+        controller.seekTo(Duration.zero);
       }
+      controller.play();
     });
   }
 
