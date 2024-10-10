@@ -614,12 +614,10 @@ class _MaterialControlsState extends State<MaterialControls>
     controller.addListener(_updateState);
     controller.addListener(() {
       final bool isFinished =
-          (_latestValue.position + Duration(milliseconds: 100) >=
+          (_latestValue.position  >=
                   _latestValue.duration) &&
               _latestValue.duration.inSeconds > 0;
-      log('////');
-      log(_latestValue.position.toString());
-      log(_latestValue.duration.toString());
+
 
       if (isFinished) {
         _pause();
