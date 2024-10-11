@@ -65,7 +65,6 @@ class _MaterialControlsState extends State<MaterialControls>
 
   @override
   Widget build(BuildContext context) {
-    return cont();
     if (_latestValue.hasError) {
       return chewieController.errorBuilder?.call(
             context,
@@ -78,46 +77,9 @@ class _MaterialControlsState extends State<MaterialControls>
               size: 42,
             ),
           );
+    } else {
+      return cont();
     }
-
-    return MouseRegion(
-      onHover: (_) {
-        _cancelAndRestartTimer();
-      },
-      child: GestureDetector(
-        onTap: () => _cancelAndRestartTimer(),
-        child: AbsorbPointer(
-          absorbing: notifier.hideStuff,
-          child: Stack(
-            children: [
-              if (_displayBufferingIndicator)
-                _chewieController?.bufferingBuilder?.call(context) ??
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    )
-              else
-                _buildHitArea(),
-              _buildActionBar(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  if (_subtitleOn)
-                    Transform.translate(
-                      offset: Offset(
-                        0.0,
-                        notifier.hideStuff ? barHeight * 0.8 : 0.0,
-                      ),
-                      child:
-                          _buildSubtitles(context, chewieController.subtitle!),
-                    ),
-                  _buildBottomBar(context),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget cont() {
@@ -614,10 +576,8 @@ class _MaterialControlsState extends State<MaterialControls>
     controller.addListener(_updateState);
     controller.addListener(() {
       final bool isFinished =
-          (_latestValue.position  >=
-                  _latestValue.duration) &&
+          (_latestValue.position >= _latestValue.duration) &&
               _latestValue.duration.inSeconds > 0;
-
 
       if (isFinished) {
         _pause();
