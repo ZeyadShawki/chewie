@@ -120,7 +120,7 @@ class _MaterialControlsState extends State<MaterialControls>
             ),
           if (chewieController.isFullScreen)
             Container(
-              height: 160,
+              height: 150,
               width: MediaQuery.of(context).size.width,
 
               // width: state.screenWidth/2,
@@ -133,21 +133,22 @@ class _MaterialControlsState extends State<MaterialControls>
                     child: _buildProgressBar(),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 0.0),
+                    padding: EdgeInsets.only(bottom: 0.0, left: 10),
                     child: GestureDetector(
                       onTap: () {
                         _playPause();
                       },
                       child: !chewieController.isPlaying
                           ? SvgPicture.asset(
-                              height: 90, width: 90,
+                              height: 60,
 
                               AssetManger.playBtn, // Toggle based on state
                             )
                           : Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
+                              padding:
+                                  const EdgeInsets.only(bottom: 0.0, left: 0),
                               child: SvgPicture.asset(
-                                height: 110,
+                                height: 60,
                                 // width: 10,
                                 AssetManger.pauseBtn, // Toggle based on state
                               ),
@@ -742,6 +743,8 @@ class _MaterialControlsState extends State<MaterialControls>
 
   Widget _buildProgressBar() {
     return MaterialVideoProgressBar(
+      barHeight: 15,
+      handleHeight: 10,
       controller,
       onDragStart: () {
         setState(() {

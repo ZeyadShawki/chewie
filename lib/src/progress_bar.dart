@@ -204,7 +204,7 @@ class _ProgressBarPainter extends CustomPainter {
           Offset(0.0, baseOffset),
           Offset(size.width, baseOffset + barHeight),
         ),
-        const Radius.circular(4.0),
+        const Radius.circular(10.0),
       ),
       colors.backgroundPaint,
     );
@@ -226,7 +226,7 @@ class _ProgressBarPainter extends CustomPainter {
             Offset(start, baseOffset),
             Offset(end, baseOffset + barHeight),
           ),
-          const Radius.circular(4.0),
+          const Radius.circular(10.0),
         ),
         colors.bufferedPaint,
       );
@@ -237,7 +237,7 @@ class _ProgressBarPainter extends CustomPainter {
           Offset(0.0, baseOffset),
           Offset(playedPart, baseOffset + barHeight),
         ),
-        const Radius.circular(4.0),
+        const Radius.circular(10.0),
       ),
       colors.playedPaint,
     );
