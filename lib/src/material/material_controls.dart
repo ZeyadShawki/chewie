@@ -138,7 +138,7 @@ class _MaterialControlsState extends State<MaterialControls>
                       onTap: () {
                         _playPause();
                       },
-                      child: !chewieController.isPlaying
+                      child: ! chewieController.isPlaying 
                           ? SvgPicture.asset(
                               height: 60,
 

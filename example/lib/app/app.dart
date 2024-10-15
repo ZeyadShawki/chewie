@@ -108,6 +108,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,
       autoPlay: false,
+      aspectRatio: 1,
       looping: false,
       progressIndicatorDelay:
           bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
@@ -181,8 +182,15 @@ class _ChewieDemoState extends State<ChewieDemo> {
                 child: _chewieController != null &&
                         _chewieController!
                             .videoPlayerController.value.isInitialized
-                    ? Chewie(
-                        controller: _chewieController!,
+                    ? Container(
+                        height: 300,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Chewie(
+                          controller: _chewieController!,
+                        ),
                       )
                     : const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
