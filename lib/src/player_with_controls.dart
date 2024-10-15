@@ -43,11 +43,29 @@ class PlayerWithControls extends StatelessWidget {
             panEnabled: chewieController.zoomAndPan,
             scaleEnabled: chewieController.zoomAndPan,
             child: Center(
-              child: AspectRatio(
-                aspectRatio: chewieController.aspectRatio ??
-                    chewieController.videoPlayerController.value.aspectRatio,
-                child: VideoPlayer(chewieController.videoPlayerController),
-              ),
+              child: chewieController.isFullScreen
+                  ? AspectRatio(
+                      aspectRatio: chewieController.aspectRatio ??
+                          chewieController
+                              .videoPlayerController.value.aspectRatio,
+                      child:
+                          VideoPlayer(
+                            
+                            chewieController.videoPlayerController),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(13.0),
+                      clipBehavior: Clip
+                          .hardEdge, // It's highly advisable to use this behavior to improve performance.
+
+                      child: AspectRatio(
+                        aspectRatio: chewieController.aspectRatio ??
+                            chewieController
+                                .videoPlayerController.value.aspectRatio,
+                        child:
+                            VideoPlayer(chewieController.videoPlayerController),
+                      ),
+                    ),
             ),
           ),
           if (chewieController.overlay != null) chewieController.overlay!,
