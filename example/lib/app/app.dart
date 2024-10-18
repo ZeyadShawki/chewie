@@ -106,6 +106,8 @@ class _ChewieDemoState extends State<ChewieDemo> {
     ];
 
     _chewieController = ChewieController(
+      isNetworkUrl: true,
+      thumbnailUrl: 'https://anettemossbacher.com/wp-content/media/lioness-staring-intensely-into-camera-print-305x305.jpg',
       videoPlayerController: _videoPlayerController1,
       autoPlay: false,
       aspectRatio: 1,

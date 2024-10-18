@@ -32,7 +32,7 @@ class Chewie extends StatefulWidget {
 
   /// The [ChewieController]
   final ChewieController controller;
-
+  
   @override
   ChewieState createState() {
     return ChewieState();
@@ -263,8 +263,13 @@ class ChewieState extends State<Chewie> {
 /// player, please use the standard information provided by the
 /// `VideoPlayerController`.
 class ChewieController extends ChangeNotifier {
+  final String thumbnailUrl;
+  final bool isNetworkUrl;
   ChewieController({
     required this.videoPlayerController,
+        required this.thumbnailUrl,
+    required this.isNetworkUrl,
+
     this.optionsTranslation,
     this.aspectRatio,
     this.autoInitialize = false,
@@ -315,6 +320,9 @@ class ChewieController extends ChangeNotifier {
   }
 
   ChewieController copyWith({
+        bool? isNetworkUrl,
+    String? thumbnailUrl,
+
     VideoPlayerController? videoPlayerController,
     OptionsTranslation? optionsTranslation,
     double? aspectRatio,
@@ -365,6 +373,9 @@ class ChewieController extends ChangeNotifier {
     )? routePageBuilder,
   }) {
     return ChewieController(
+            isNetworkUrl: isNetworkUrl ?? this.isNetworkUrl,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+
       draggableProgressBar: draggableProgressBar ?? this.draggableProgressBar,
       videoPlayerController:
           videoPlayerController ?? this.videoPlayerController,

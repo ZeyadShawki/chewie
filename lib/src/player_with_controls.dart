@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/helpers/adaptive_controls.dart';
 import 'package:flutter/material.dart';
@@ -35,54 +37,36 @@ class PlayerWithControls extends StatelessWidget {
         children: <Widget>[
           if (chewieController.placeholder != null)
             chewieController.placeholder!,
-          InteractiveViewer(
-              transformationController:
-                  chewieController.transformationController,
-              maxScale: chewieController.maxScale,
-              panEnabled: chewieController.zoomAndPan,
-              scaleEnabled: chewieController.zoomAndPan,
-              child: Center(
-                  child: chewieController.isFullScreen
-                      ? AspectRatio(
-                          aspectRatio: chewieController.aspectRatio ??
-                              chewieController
-                                  .videoPlayerController.value.aspectRatio,
-                          child: VideoPlayer(
-                              chewieController.videoPlayerController),
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(13.0),
-                          clipBehavior: Clip
-                              .hardEdge, // It's highly advisable to use this behavior to improve performance.
+          !chewieController.isFullScreen
+              ? chewieController.isNetworkUrl
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(13.0),
+                      clipBehavior: Clip
+                          .hardEdge, // It's highly advisable to use this behavior to improve performance.
 
-                          child: AspectRatio(
-                            aspectRatio:1,
-                            child: VideoPlayer(
-                                chewieController.videoPlayerController),
-                          ),
-                        ))),
-          if (chewieController.overlay != null) chewieController.overlay!,
-          // if (Theme.of(context).platform != TargetPlatform.iOS)
-          //   Consumer<PlayerNotifier>(
-          //     builder: (
-          //       BuildContext context,
-          //       PlayerNotifier notifier,
-          //       Widget? widget,
-          //     ) =>
-          //         Visibility(
-          //       visible: !notifier.hideStuff,
-          //       child: AnimatedOpacity(
-          //         opacity: notifier.hideStuff ? 0.0 : 0,
-          //         duration: const Duration(
-          //           milliseconds: 250,
-          //         ),
-          //         child: const DecoratedBox(
-          //           decoration: BoxDecoration(color: Colors.black54),
-          //           child: SizedBox.expand(),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
+                      child: Image.network(chewieController.thumbnailUrl))
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(13.0),
+                      clipBehavior: Clip
+                          .hardEdge, // It's highly advisable to use this behavior to improve performance.
+
+                      child: Image.file(File(chewieController.thumbnailUrl)))
+              : InteractiveViewer(
+                  transformationController:
+                      chewieController.transformationController,
+                  maxScale: chewieController.maxScale,
+                  panEnabled: chewieController.zoomAndPan,
+                  scaleEnabled: chewieController.zoomAndPan,
+                  child: Center(
+                      child: chewieController.isFullScreen
+                          ? AspectRatio(
+                              aspectRatio: chewieController.aspectRatio ??
+                                  chewieController
+                                      .videoPlayerController.value.aspectRatio,
+                              child: VideoPlayer(
+                                  chewieController.videoPlayerController),
+                            )
+                          : Container())),
           if (!chewieController.isFullScreen)
             buildControls(context, chewieController)
           else
