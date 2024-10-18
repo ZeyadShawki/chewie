@@ -44,19 +44,25 @@ class PlayerWithControls extends StatelessWidget {
                       clipBehavior: Clip
                           .hardEdge, // It's highly advisable to use this behavior to improve performance.
 
-                      child: Image.network(chewieController.thumbnailUrl))
+                      child: Image.network(
+                        loadingBuilder: (context, child, loadingProgress) => chewieController.imageLoadingIndeicater,
+                        
+                        chewieController.thumbnailUrl))
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(13.0),
                       clipBehavior: Clip
                           .hardEdge, // It's highly advisable to use this behavior to improve performance.
 
-                      child: Image.file(File(chewieController.thumbnailUrl)))
+                      child: Image.file(
+                        
+                        File(chewieController.thumbnailUrl)))
               : InteractiveViewer(
                   transformationController:
                       chewieController.transformationController,
                   maxScale: chewieController.maxScale,
                   panEnabled: chewieController.zoomAndPan,
                   scaleEnabled: chewieController.zoomAndPan,
+                  
                   child: Center(
                       child: chewieController.isFullScreen
                           ? AspectRatio(

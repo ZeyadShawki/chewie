@@ -18,6 +18,7 @@ main() {
     );
     var materialControlsKey = GlobalKey();
     var chewieController = ChewieController(
+      imageLoadingIndeicater: Container(),
         isNetworkUrl: true,
       thumbnailUrl: 'https://anettemossbacher.com/wp-content/media/lioness-staring-intensely-into-camera-print-305x305.jpg',
     
@@ -53,7 +54,10 @@ main() {
       Uri.parse(srcs[0]),
     );
     var materialControlsKey = GlobalKey();
-    var chewieController = ChewieController(  isNetworkUrl: true,
+    var chewieController = ChewieController(       imageLoadingIndeicater: Container(),
+
+      
+       isNetworkUrl: true,
       thumbnailUrl: 'https://anettemossbacher.com/wp-content/media/lioness-staring-intensely-into-camera-print-305x305.jpg',
     
       videoPlayerController: videoPlayerController,
@@ -91,7 +95,10 @@ main() {
       Uri.parse(srcs[0]),
     );
     var materialControlsKey = GlobalKey();
-    var chewieController = ChewieController(  isNetworkUrl: true,
+    var chewieController = ChewieController( 
+            imageLoadingIndeicater: Container(),
+
+       isNetworkUrl: true,
       thumbnailUrl: 'https://anettemossbacher.com/wp-content/media/lioness-staring-intensely-into-camera-print-305x305.jpg',
     
       videoPlayerController: videoPlayerController,

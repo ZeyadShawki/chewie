@@ -265,7 +265,10 @@ class ChewieState extends State<Chewie> {
 class ChewieController extends ChangeNotifier {
   final String thumbnailUrl;
   final bool isNetworkUrl;
+  final Widget imageLoadingIndeicater;
   ChewieController({
+        required this.imageLoadingIndeicater,
+
     required this.videoPlayerController,
         required this.thumbnailUrl,
     required this.isNetworkUrl,
@@ -322,6 +325,7 @@ class ChewieController extends ChangeNotifier {
   ChewieController copyWith({
         bool? isNetworkUrl,
     String? thumbnailUrl,
+   Widget? imageLoadingIndeicater,
 
     VideoPlayerController? videoPlayerController,
     OptionsTranslation? optionsTranslation,
@@ -373,6 +377,8 @@ class ChewieController extends ChangeNotifier {
     )? routePageBuilder,
   }) {
     return ChewieController(
+                  imageLoadingIndeicater: imageLoadingIndeicater ?? this.imageLoadingIndeicater,
+
             isNetworkUrl: isNetworkUrl ?? this.isNetworkUrl,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
 
