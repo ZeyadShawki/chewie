@@ -45,7 +45,7 @@ class PlayerWithControls extends StatelessWidget {
                           .hardEdge, // It's highly advisable to use this behavior to improve performance.
 
                       child: Image.network(
-                        loadingBuilder: (context, child, loadingProgress) => chewieController.imageLoadingIndeicater,
+                        // loadingBuilder: (context, child, loadingProgress) => chewieController.imageLoadingIndeicater,
                         
                         chewieController.thumbnailUrl))
                   : ClipRRect(
