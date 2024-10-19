@@ -123,6 +123,7 @@ class _MaterialControlsState extends State<MaterialControls>
             Flexible(
               child: Container(
                 width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
