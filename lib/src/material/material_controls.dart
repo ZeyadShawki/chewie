@@ -92,8 +92,8 @@ class _MaterialControlsState extends State<MaterialControls>
         children: [
           if (chewieController.isFullScreen) ...[
             SizedBox(
-              height: 50,
-            ),
+                height:
+                    50), // Consider adjusting this value dynamically if needed
             Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: Align(
@@ -115,47 +115,42 @@ class _MaterialControlsState extends State<MaterialControls>
                 _onExpandCollapse();
               },
               child: SvgPicture.asset(
-                AssetManger.playBtn, // Toggle based on state
+                height: 100,
+                AssetManger.playBtn,
               ),
             ),
           if (chewieController.isFullScreen)
-            Container(
-              height: 150,
-              width: MediaQuery.of(context).size.width,
-
-              // width: state.screenWidth/2,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    child: _buildProgressBar(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 0.0, left: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        _playPause();
-                      },
-                      child: ! chewieController.isPlaying 
-                          ? SvgPicture.asset(
-                              height: 60,
-
-                              AssetManger.playBtn, // Toggle based on state
-                            )
-                          : Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 0.0, left: 0),
-                              child: SvgPicture.asset(
-                                height: 60,
-                                // width: 10,
-                                AssetManger.pauseBtn, // Toggle based on state
+            Flexible(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(child: _buildProgressBar()), // Use Expanded here
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          _playPause();
+                        },
+                        child: !chewieController.isPlaying
+                            ? SvgPicture.asset(
+                                height:
+                                    chewieController.isFullScreen ? 60 : 100,
+                                AssetManger.playBtn,
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(left: 0),
+                                child: SvgPicture.asset(
+                                  height: 60,
+                                  AssetManger.pauseBtn,
+                                ),
                               ),
-                            ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
         ],
