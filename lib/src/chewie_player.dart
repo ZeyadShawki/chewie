@@ -269,10 +269,12 @@ class ChewieController extends ChangeNotifier {
 
   final Widget pauseBtn;
   final Widget playBtn;
+  final Widget playBtnOfThumbnail;
 
   ChewieController({
     required this.pauseBtn,
     required this.playBtn,
+    required this.playBtnOfThumbnail,
 
 
     required this.imageLoadingIndeicater,
@@ -333,6 +335,7 @@ class ChewieController extends ChangeNotifier {
 
    Widget? pauseBtn,
    Widget? playBtn,
+   Widget? playBtnOfThumbnail,
 
     
     bool? isNetworkUrl,
@@ -388,6 +391,7 @@ class ChewieController extends ChangeNotifier {
     )? routePageBuilder,
   }) {
     return ChewieController(
+      playBtnOfThumbnail: playBtnOfThumbnail ?? this.playBtnOfThumbnail,
 
       playBtn: playBtn ?? this.playBtn,
       pauseBtn: pauseBtn ?? this.pauseBtn,

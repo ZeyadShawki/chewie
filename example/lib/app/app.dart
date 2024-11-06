@@ -106,6 +106,11 @@ class _ChewieDemoState extends State<ChewieDemo> {
     ];
 
     _chewieController = ChewieController(
+       playBtnOfThumbnail: Icon(
+        Icons.qr_code,
+        size: 50,
+        color: Colors.amber,
+      ),
       playBtn: Icon(
         Icons.abc,
         size: _chewieController != null && _chewieController!.isFullScreen

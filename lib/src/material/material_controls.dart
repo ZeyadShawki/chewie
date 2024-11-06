@@ -114,7 +114,7 @@ class _MaterialControlsState extends State<MaterialControls>
                 _play();
                 _onExpandCollapse();
               },
-              child: chewieController.playBtn
+              child: chewieController.playBtnOfThumbnail
             ),
           if (chewieController.isFullScreen)
             Flexible(
