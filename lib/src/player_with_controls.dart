@@ -39,17 +39,19 @@ class PlayerWithControls extends StatelessWidget {
             chewieController.placeholder!,
           !chewieController.isFullScreen
               ? chewieController.isNetworkUrl
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(13.0),
-                      clipBehavior: Clip
-                          .hardEdge, // It's highly advisable to use this behavior to improve performance.
+                  ? Center(
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(13.0),
+                          clipBehavior: Clip
+                              .hardEdge, // It's highly advisable to use this behavior to improve performance.
 
-                      child: Image.network(
-                          loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
+                          child: Image.network(loadingBuilder:
+                              (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
 
-                        return chewieController.imageLoadingIndeicater;
-                      }, chewieController.thumbnailUrl))
+                            return chewieController.imageLoadingIndeicater;
+                          }, chewieController.thumbnailUrl)),
+                    )
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(13.0),
                       clipBehavior: Clip

@@ -32,7 +32,7 @@ class Chewie extends StatefulWidget {
 
   /// The [ChewieController]
   final ChewieController controller;
-  
+
   @override
   ChewieState createState() {
     return ChewieState();
@@ -266,13 +266,19 @@ class ChewieController extends ChangeNotifier {
   final String thumbnailUrl;
   final bool isNetworkUrl;
   final Widget imageLoadingIndeicater;
+
+  final Widget pauseBtn;
+  final Widget playBtn;
+
   ChewieController({
-        required this.imageLoadingIndeicater,
+    required this.pauseBtn,
+    required this.playBtn,
 
+
+    required this.imageLoadingIndeicater,
     required this.videoPlayerController,
-        required this.thumbnailUrl,
+    required this.thumbnailUrl,
     required this.isNetworkUrl,
-
     this.optionsTranslation,
     this.aspectRatio,
     this.autoInitialize = false,
@@ -323,10 +329,15 @@ class ChewieController extends ChangeNotifier {
   }
 
   ChewieController copyWith({
-        bool? isNetworkUrl,
-    String? thumbnailUrl,
-   Widget? imageLoadingIndeicater,
 
+
+   Widget? pauseBtn,
+   Widget? playBtn,
+
+    
+    bool? isNetworkUrl,
+    String? thumbnailUrl,
+    Widget? imageLoadingIndeicater,
     VideoPlayerController? videoPlayerController,
     OptionsTranslation? optionsTranslation,
     double? aspectRatio,
@@ -377,11 +388,15 @@ class ChewieController extends ChangeNotifier {
     )? routePageBuilder,
   }) {
     return ChewieController(
-                  imageLoadingIndeicater: imageLoadingIndeicater ?? this.imageLoadingIndeicater,
 
-            isNetworkUrl: isNetworkUrl ?? this.isNetworkUrl,
+      playBtn: playBtn ?? this.playBtn,
+      pauseBtn: pauseBtn ?? this.pauseBtn,
+
+
+      imageLoadingIndeicater:
+          imageLoadingIndeicater ?? this.imageLoadingIndeicater,
+      isNetworkUrl: isNetworkUrl ?? this.isNetworkUrl,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
-
       draggableProgressBar: draggableProgressBar ?? this.draggableProgressBar,
       videoPlayerController:
           videoPlayerController ?? this.videoPlayerController,

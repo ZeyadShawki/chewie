@@ -105,10 +105,24 @@ class _ChewieDemoState extends State<ChewieDemo> {
       ),
     ];
 
-    _chewieController = ChewieController(      imageLoadingIndeicater: Container(),
+    _chewieController = ChewieController(
+      playBtn: Icon(
+        Icons.abc,
+        size: _chewieController != null && _chewieController!.isFullScreen
+            ? 50
+            : 100,
+        color: Colors.amber,
+      ),
+      pauseBtn: Icon(
+        Icons.qr_code,
+        size: 50,
+        color: Colors.amber,
+      ),
+      imageLoadingIndeicater: Container(),
 
       isNetworkUrl: true,
-      thumbnailUrl: 'https://anettemossbacher.com/wp-content/media/lioness-staring-intensely-into-camera-print-305x305.jpg',
+      thumbnailUrl:
+          'https://elli-backend-bucket.s3.eu-north-1.amazonaws.com/intro_videos/WhatsApp+Image+2024-11-05+at+22.44.24.jpeg',
       videoPlayerController: _videoPlayerController1,
       autoPlay: false,
       aspectRatio: 1,
@@ -175,6 +189,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
         platform: _platform ?? Theme.of(context).platform,
       ),
       home: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text(widget.title),
         ),
@@ -186,11 +201,10 @@ class _ChewieDemoState extends State<ChewieDemo> {
                         _chewieController!
                             .videoPlayerController.value.isInitialized
                     ? Container(
-                        height: 300,
-                        width: 300,
+                        height: 400,
+                        // width: 40,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20)
-                        ),
+                            borderRadius: BorderRadius.circular(20)),
                         child: Chewie(
                           controller: _chewieController!,
                         ),

@@ -114,10 +114,7 @@ class _MaterialControlsState extends State<MaterialControls>
                 _play();
                 _onExpandCollapse();
               },
-              child: SvgPicture.asset(
-                height: 100,
-                AssetManger.playBtn,
-              ),
+              child: chewieController.playBtn
             ),
           if (chewieController.isFullScreen)
             Flexible(
@@ -136,18 +133,8 @@ class _MaterialControlsState extends State<MaterialControls>
                           _playPause();
                         },
                         child: !chewieController.isPlaying
-                            ? SvgPicture.asset(
-                                height:
-                                    chewieController.isFullScreen ? 60 : 100,
-                                AssetManger.playBtn,
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(left: 0),
-                                child: SvgPicture.asset(
-                                  height: 60,
-                                  AssetManger.pauseBtn,
-                                ),
-                              ),
+                            ? chewieController.playBtn
+                            :  chewieController.pauseBtn
                       ),
                     ),
                   ],
