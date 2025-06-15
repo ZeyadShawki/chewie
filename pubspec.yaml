@@ -14,7 +14,7 @@ dependencies:
   provider: ^6.1.2
   video_player: ^2.9.3
   wakelock_plus: ^1.2.10
-  flutter_svg: ^1.1.6
+  flutter_svg: ^2.1.0
 
 dev_dependencies:
   flutter_test:
